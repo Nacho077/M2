@@ -19,16 +19,12 @@ class Counter extends Component {
       <p>
         Clickeado: {this.props.count} veces
         <button
-          onClick={() => {
-            /* Completar */
-          }}
+          onClick={() => this.props.increment()}
         >
           + {/* Incremeta */}
         </button>
         <button
-          onClick={() => {
-            /* Completar */
-          }}
+          onClick={() => this.props.decrement()}
         >
           - {/* Decrementa */}
         </button>
@@ -49,14 +45,21 @@ class Counter extends Component {
 // este componente recibe el estado completo.
 // Sin embargo, en una aplicación redux más compleja,
 // recibiría sólo las partes relevantes que necesita del objeto de estado.
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { // {a, b, c, ..., count}
   return {
     count: state.count,
   };
 };
 
+const mapDispatchToProps = (dispatch) => { // increment(), decrement(), asyncIncrement()
+  return {
+    increment: () => dispatch(increment()),
+    decrement: () => dispatch(decrement())
+  }
+}
+
 // Se llama a la función de connect para que este componente conozca el resto de la arquitectura de redux.
 // Sin esto, este componente es sólo un componente tonto de React.
 //Pasamos todas las funciones que dependen de Redux, junto con el propio componente,
 // para que Redux se dé a conocer a este componente.
-export default connect(mapStateToProps, { increment, decrement })(Counter);
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
